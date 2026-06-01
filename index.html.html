@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nossa Revelação Especial - Aline & Enio</title>
+    <!-- Fontes Elegantes Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <!-- Ícones Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Scripts Oficiais do Firebase (Conexão em Tempo Real) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
@@ -128,7 +131,7 @@
         .btn-audio.tocando { background: #e63946; border-color: #e63946; color: #fff; animation: pulseBtn 1s infinite alternate; }
 
         /* --- 4. SEÇÃO DE VOTAÇÃO --- */
-        .votacao-box { max-width: 700px; margin: 0 auto; text-align: center; background: var(--fundo-card); padding: 40px; border-radius: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.03); border: 1px solid rgba(255,255,255,0.8); }
+        .votacao-box { max-width: 700px; margin: 0 auto; text-align: center; background: var(--fundo-card); padding: 40px; border-radius: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.03); border: 1px solid rgba(255, 255, 255, 0.8); }
         .votacao-box h2.fonte-caligrafica { text-shadow: none; }
         .botoes-voto { display: flex; gap: 20px; justify-content: center; margin-bottom: 25px; }
         .btn-voto {
@@ -173,7 +176,6 @@
             box-shadow: 0 0 10px rgba(179, 135, 40, 0.15);
         }
 
-        /* ✨ BOTÃO MARMORIZADO PREMIUM ✨ */
         .btn-revelar {
             width: 85%;
             padding: 15px 30px;
@@ -250,6 +252,7 @@
 
     <canvas id="canvas-confetti"></canvas>
 
+    <!-- 1. SEÇÃO PRINCIPAL -->
     <section id="principal">
         <div class="container hero-content">
             <div class="titulo-secao-container" style="padding: 15px 40px; border-radius: 12px; background: rgba(255,255,255,0.75);">
@@ -260,6 +263,7 @@
         </div>
     </section>
 
+    <!-- 2. SEÇÃO DA NOSSA HISTÓRIA -->
     <section id="nossa-historia">
         <div class="container">
             <div class="historia-grid">
@@ -274,6 +278,7 @@
         </div>
     </section>
 
+    <!-- 3. SEÇÃO DA LINHA DO TEMPO -->
     <section id="linha-do-tempo">
         <div class="container">
             <div class="titulo-secao-container">
@@ -283,6 +288,7 @@
             
             <div class="timeline">
                 
+                <!-- Marco 1 -->
                 <div class="timeline-item left">
                     <div class="timeline-icon"><i class="fa-solid fa-baby"></i></div>
                     <div class="timeline-content">
@@ -293,6 +299,7 @@
                     </div>
                 </div>
 
+                <!-- Marco 2 -->
                 <div class="timeline-item right">
                     <div class="timeline-icon"><i class="fa-solid fa-heart-pulse"></i></div>
                     <div class="timeline-content">
@@ -307,6 +314,7 @@
                     </div>
                 </div>
 
+                <!-- Marco 3 -->
                 <div class="timeline-item left">
                     <div class="timeline-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                     <div class="timeline-content">
@@ -320,6 +328,7 @@
         </div>
     </section>
 
+    <!-- 4. SEÇÃO DE VOTAÇÃO (BANCO DE DADOS EM TEMPO REAL) -->
     <section id="votacao">
         <div class="container">
             <div class="votacao-box">
@@ -358,6 +367,7 @@
         </div>
     </section>
 
+    <!-- 5. SEÇÃO DE REVELAÇÃO -->
     <section id="revelacao">
         <div class="container">
             
@@ -378,6 +388,7 @@
         </div>
     </section>
 
+    <!-- 6. SEÇÃO DE MENSAGEM CONFIDENCIAL -->
     <section id="confidencial">
         <div class="container">
             <div class="card-confidencial">
@@ -395,7 +406,7 @@
         const SENHA_CORRETA = "1234";
         const SEXO_DO_BEBE = "menino"; // Altere para "menina" se for o caso!
 
-        // 🔴 INSERIR SUA URL DO FIREBASE AQUI ABAIXO:
+        // URL do Firebase
         const configFirebase = {
             databaseURL: "https://revelacao-aline-enio-default-rtdb.firebaseio.com"
         };
@@ -431,7 +442,7 @@
         }
 
         // ==========================================
-        // 🛠️ LOGICÁ ATUALIZADA: REPRODUÇÃO DO ÁUDIO REAL (MP3)
+        // REPRODUÇÃO DO ÁUDIO REAL COM LOOP ATIVADO
         // ==========================================
         let audioReal = new Audio('coracao.mp3');
         let tocandoAudio = false;
@@ -442,6 +453,7 @@
             
             if (!tocandoAudio) {
                 audioReal.play();
+                audioReal.loop = true; // 🔁 Mantém o áudio repetindo sem parar
                 tocandoAudio = true;
                 btn.classList.add('tocando');
                 icon.className = "fa-solid fa-stop";
@@ -454,11 +466,13 @@
             }
         }
         
-        // Quando a gravação chegar ao fim sozinha, desliga o botão automaticamente:
+        // Mantido apenas por redundância de segurança caso o loop falhe
         audioReal.onended = function() {
-            tocandoAudio = false;
-            document.getElementById('btnHeart').classList.remove('tocando');
-            document.getElementById('audioIcon').className = "fa-solid fa-play";
+            if (!audioReal.loop) {
+                tocandoAudio = false;
+                document.getElementById('btnHeart').classList.remove('tocando');
+                document.getElementById('audioIcon').className = "fa-solid fa-play";
+            }
         };
 
         // ==========================================
